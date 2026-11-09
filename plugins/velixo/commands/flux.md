@@ -2,7 +2,7 @@
 name: flux
 description: Run a month-end, quarter-end or period-range variance (flux) review on Acumatica, Sage Intacct or Business Central — root-cause findings, board-ready commentary, and an optional drill-down into any account by business account (vendor, customer, employee), segment or dimension, branch or entity, month by month.
 argument-hint: "<period | period range> vs <prior|prior-year|prior-years:<n>|budget:<name>|forecast:<name>> [branch:<b> | entity:<e>] [ledger:<l> | book:<b>] [materiality:<amount>,<percent>%[,both|either][,spine:<percent>%]] [drill:<account or class, or the full /drilldown arguments in quotes>]"
-allowed-tools: mcp__plugin_velixo_Velixo__*, Read, Skill
+allowed-tools: Read, Skill(velixo:velixo-variance-analyzer), Skill(velixo:velixo-flux-writer), Skill(velixo:velixo-account-drilldown)
 ---
 
 Run a variance review for: `$ARGUMENTS`

@@ -2,7 +2,7 @@
 name: journal-entry
 description: Book a GL journal entry — accrual, reclass, correction or adjustment — on Acumatica, Sage Intacct or Business Central from typed, pasted or attached lines, or reverse or reclassify a posted one; previewed, written only after your yes.
 argument-hint: "<lines: dr|cr <account> <amount> [\"<description>\"] [<field>:<value> … e.g. department:ADM]; …> [date:<YYYY-MM-DD>] [desc:\"<text>\"] [journal:<name> | batch:<name>] [doc:<number>] [<field>:<value> …] [post | release] | reverse:<entry> | reclassify:<entry> … | release:<batch>"
-allowed-tools: mcp__plugin_velixo-nx-stage-zero_Velixo_nx-stage-zero__*, Read, Skill
+allowed-tools: Read, Skill(velixo-nx-stage-zero:velixo-journal-entry)
 ---
 
 Create a journal entry from: `$ARGUMENTS`
