@@ -1,0 +1,50 @@
+{
+  "name": "velixo-plugins",
+  "description": "Velixo's Claude extensions",
+  "owner": {
+    "name": "Velixo",
+    "email": "support@velixo.com"
+  },
+  "plugins": [
+    {
+      "name": "velixo",
+      "source": "./plugins/velixo",
+      "description": "Connect Claude to your ERP through the Velixo MCP server. Ask questions of your financial and operational data in plain language, read screens and run reports, create and update records with your confirmation, attach files and export results to Excel, and analyze them with Velixo's finance skills: variance and flux analysis, account drill-downs, journal entries and board-ready output.",
+      "author": {
+        "name": "Velixo"
+      },
+      "category": "productivity",
+      "homepage": "https://velixo.com"
+    },
+    {
+      "name": "velixo-nx-dev",
+      "source": "./plugins/velixo-nx-dev",
+      "description": "Connect Claude to your ERP through the Velixo MCP server. Ask questions of your financial and operational data in plain language, read screens and run reports, create and update records with your confirmation, attach files and export results to Excel, and analyze them with Velixo's finance skills: variance and flux analysis, account drill-downs, journal entries and board-ready output.",
+      "author": {
+        "name": "Velixo"
+      },
+      "category": "productivity",
+      "homepage": "https://velixo.com"
+    },
+    {
+      "name": "velixo-nx-staging",
+      "source": "./plugins/velixo-nx-staging",
+      "description": "Connect Claude to your ERP through the Velixo MCP server. Ask questions of your financial and operational data in plain language, read screens and run reports, create and update records with your confirmation, attach files and export results to Excel, and analyze them with Velixo's finance skills: variance and flux analysis, account drill-downs, journal entries and board-ready output.",
+      "author": {
+        "name": "Velixo"
+      },
+      "category": "productivity",
+      "homepage": "https://velixo.com"
+    },
+    {
+      "name": "velixo-nx-stage-zero",
+      "source": "./plugins/velixo-nx-stage-zero",
+      "description": "Connect Claude to your ERP through the Velixo MCP server. Ask questions of your financial and operational data in plain language, read screens and run reports, create and update records with your confirmation, attach files and export results to Excel, and analyze them with Velixo's finance skills: variance and flux analysis, account drill-downs, journal entries and board-ready output.",
+      "author": {
+        "name": "Velixo"
+      },
+      "category": "productivity",
+      "homepage": "https://velixo.com"
+    }
+  ]
+}

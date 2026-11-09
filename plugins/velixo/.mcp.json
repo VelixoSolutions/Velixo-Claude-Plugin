@@ -1,0 +1,6 @@
+{
+  "Velixo": {
+    "type": "http",
+    "url": "https://app.velixo.com/mcp"
+  }
+}

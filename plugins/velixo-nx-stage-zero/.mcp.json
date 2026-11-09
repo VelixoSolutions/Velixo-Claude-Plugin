@@ -1,0 +1,6 @@
+{
+  "Velixo nx-stage-zero": {
+    "type": "http",
+    "url": "https://nx-stage-zero.velixo.com/mcp"
+  }
+}

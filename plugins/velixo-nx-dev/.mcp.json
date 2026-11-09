@@ -1,0 +1,6 @@
+{
+  "Velixo nx-dev": {
+    "type": "http",
+    "url": "https://nx-dev.velixo.com/mcp"
+  }
+}
