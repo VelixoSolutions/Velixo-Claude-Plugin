@@ -2,7 +2,6 @@
 name: drilldown
 description: Find who or what drove the movement of one or more GL accounts on Acumatica, Sage Intacct or Business Central — drilled down by business account (vendor, customer, employee), segment or dimension, branch or entity, month by month against prior years and budget, tied to the GL.
 argument-hint: "<accounts | class:<account class>> [by:<business-account|segment|branch>[,…]] [for:<business account>[,…]] [sub:<code>] [segment:<name>=<value>[,…]] [<window>] [vs <prior|prior-year|prior-years:<n>|budget:<name>>] [branch:<b>[,…] | entity:<e>[,…]] [ledger:<l>[,…] | book:<b>]"
-allowed-tools: Read, Skill(velixo-nx-stage-zero:velixo-account-drilldown), Skill(velixo-nx-stage-zero:velixo-flux-writer)
 ---
 
 Drill down into: `$ARGUMENTS`
