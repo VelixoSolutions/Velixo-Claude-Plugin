@@ -6,7 +6,7 @@ labels in the table under it. Don't call `prepare_query` for them and don't edit
 fails, report the error and stop. A key that matches no label is dropped silently and the query
 returns nothing. **Pass every key a query declares**, an unused optional one as `null`. **Period values
 are `MMYYYY`** (`062025`), never Acumatica's internal year-first form (`202506`), which matches no
-period. Always pass `top` (250 is enough for all of these but the chart of accounts and the segments,
+period. Always set `top` (250 is enough for all of these but the chart of accounts and the segments,
 which take the whole list: 2,000) and check `truncated`.
 
 | Alias | Query | Used for | When |
@@ -56,7 +56,7 @@ SELECT FinPeriod.FinPeriodID AS 'Financial Period ID', FinPeriod.StartDate AS 'S
 | `Period From` | yes | `GL.FinPeriods.TableDefinition.FinPeriod.FinPeriodID` |
 | `Period To` | yes | `GL.FinPeriods.TableDefinition.FinPeriod.FinPeriodID` |
 - `Company ID` is the branch's company from J1. When the user gave the period, pass it as both
-  `Period From` and `Period To`. When only the date is known, pass `01` of the date's year to `13` of
+  `Period From` and `Period To`. When only the date is known, use `01` of the date's year to `13` of
   the next year (`012025` – `132026` for a date in 2025): that covers a fiscal year that does not run
   January to December. Take the non-adjustment row whose `Start Date` ≤ the date < `End Date`.
 - **`End Date` is the next period's start**: `062025` ends `2025-07-01`, so 30 June is in `062025`
@@ -96,7 +96,7 @@ No parameters.
   add up to the subaccount's length; split each line's subaccount with them.
 - `Validate` true: the value must be one of the segment's values and `Active`. False: any value of the
   right length is accepted; show it as "(not in list)".
-- No rows: the tenant has no subaccount segments; pass `null` for every line's subaccount.
+- No rows: the tenant has no subaccount segments; use `null` for every line's subaccount.
 
 ## J5 — Unposted batches in the period (summary)
 
@@ -164,7 +164,7 @@ SELECT Batch.Module AS 'Module', Batch.BatchNbr AS 'Batch Number', Batch.Status 
 | `Batch Number` | no | `GL.GLTran.BatchNbr` |
 
 Pass every key in this table. An optional key you are not using goes in as `null`; never leave it out of the map.
-- Always pass `Batch Number`: the batch Acumatica assigned, or the last batch number the user gave.
+- Always set `Batch Number`: the batch Acumatica assigned, or the last batch number the user gave.
   Never leave it out of the map — this level returns nothing when it is missing.
 - One row per line, in line order, with `Account`, `Subaccount`, `Debit Amount` and `Credit Amount`
   in base currency. In a foreign-currency entry these are the converted amounts; the entry's own
@@ -198,6 +198,6 @@ SELECT Batch.BatchNbr AS 'Batch Number', Batch.BranchID AS 'Batch Branch Code', 
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-09 from
-80e40ff. The notes beside each block are the caveats that matter when running it. When a
+50f3928. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

@@ -6,7 +6,7 @@ values in the `parameters` map. The query text goes in the `giql` argument whate
 fails, report the error and stop rather than reformulating it. Parameter keys are the display labels
 (the text after `AS` in each `DECLARE`); a key that matches no label is dropped silently and the
 query returns nothing, which looks exactly like "no data". Pass every declared key, an unused optional
-one as `null`: a key left out is not always treated as null. Always pass `top` — start at 250 and
+one as `null`: a key left out is not always treated as null. Always set `top` — start at 250 and
 raise it if the result comes back flagged `truncated`.
 
 **Dates are `YYYY-MM-DD`.** Sage Intacct has no period parameter here: a month end is its last day.
@@ -168,6 +168,6 @@ Sage Intacct, as possibilities:
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-09 from
-80e40ff. The notes beside each block are the caveats that matter when running it. When a
+50f3928. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

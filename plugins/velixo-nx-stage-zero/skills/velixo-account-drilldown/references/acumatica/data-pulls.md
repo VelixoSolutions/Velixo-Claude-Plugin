@@ -107,7 +107,7 @@ Pass every key in this table. An optional key you are not using goes in as `null
 Rows grow with accounts × active business accounts × periods, and with branches when `Branch ID` is
 left out. Eight expense accounts over 30 periods returned 721 rows for one branch and 1,360 rows over
 12 periods across five branches in testing; revenue or receivables accounts with many customers are
-larger, so shorten the window or run fewer accounts per call. Always pass `top` explicitly (start at
+larger, so shorten the window or run fewer accounts per call. Always set `top` explicitly (start at
 5,000) and check `truncated`. If the host stores large results to a file, parse it from there with a
 script; if the result comes back inline, move it into a script without retyping amounts where
 possible — the Step 3 tie-out to pull 5 is what proves the figures were carried correctly, so never
@@ -282,7 +282,7 @@ summing the branches on the one ledger.
   branch, and equals D5 for the same branch, account and window.
 - **`Branch ID` is optional:** `null` returns every branch; a branch code makes it pull 5 at subaccount
   grain for several accounts in one call.
-- **Sizing:** branches × accounts × subaccounts × periods; pass `top` explicitly and check `truncated`.
+- **Sizing:** branches × accounts × subaccounts × periods; set `top` explicitly and check `truncated`.
   When only the window total per subaccount is needed, run D6b instead of paging through D6.
 
 ## D6b — GL activity by account and subaccount, summed over a window, one branch
@@ -393,7 +393,7 @@ code) or `Subaccount Pattern` (a segment value), a period range, a date range, `
   lines).
 - **Segment filter:** build `Subaccount Pattern` from the layout in D0, with the value at its position
   and `_` elsewhere. Several segments at once are one pattern.
-- **Always bound it:** pass `top`, at least one of account, period or date, and page with `skip`.
+- **Always bound it:** set `top`, at least one of account, period or date, and page with `skip`.
 
 ## D8 — Posted lines with their source-document keys (the router)
 
@@ -790,6 +790,6 @@ Pass every key in this table. An optional key you are not using goes in as `null
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-09 from
-80e40ff. The notes beside each block are the caveats that matter when running it. When a
+50f3928. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

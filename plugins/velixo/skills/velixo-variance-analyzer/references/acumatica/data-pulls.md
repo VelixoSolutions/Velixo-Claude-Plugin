@@ -23,7 +23,7 @@ into the year-first `202603` that Acumatica stores internally — the connector 
 year-first value matches no period, so the pull returns no rows. `BETWEEN` on a financial period is
 chronological, not lexical, so ranges that cross a year end work correctly.
 
-**Always pass `top`** — start at 250, and raise it (up to 10,000) or page with `skip` if the result
+**Always set `top`** — start at 250, and raise it (up to 10,000) or page with `skip` if the result
 comes back flagged `truncated`. Never analyse a truncated result as the whole population, and never
 report a gap as a finding without first ruling out truncation.
 
@@ -426,7 +426,7 @@ Reading it:
 ## Pull 7 — Posted transaction lines
 
 Where the investigation stops being inference. Run it per line under investigation, never across the
-whole chart: always pass `Ledger ID`, `Branch ID`, `Account CD` and a period or date range, and set
+whole chart: always set `Ledger ID`, `Branch ID`, `Account CD` and a period or date range, and set
 `top`.
 
 ```giql
@@ -676,6 +676,6 @@ Record each result in the basis block with both figures and the difference.
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-09 from
-80e40ff. The notes beside each block are the caveats that matter when running it. When a
+50f3928. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.
