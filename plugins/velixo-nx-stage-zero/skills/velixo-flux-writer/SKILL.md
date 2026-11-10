@@ -98,8 +98,8 @@ scope labels are the ones the reader's own reports use.
   owner; flag forward-looking statements, risk characterizations, commitment language and anything
   naming a counterparty.
 - **Respect the surface.** Plain Markdown is the default output. Where a rendered HTML deliverable is
-  genuinely called for — a dashboard, a styled report — apply the `velixo-design` skill bundled
-  alongside this one; it is the only place Velixo's palette and logo rules are authored. Never restyle
+  genuinely called for — a dashboard, a styled report — apply the `velixo-design` skill that
+  ships in the Velixo plugin; it is the only place Velixo's palette and logo rules are authored. Never restyle
   a customer's own template, an Excel worksheet or a Teams card with it.
 ## Quick reference
 

@@ -190,8 +190,8 @@ from the classifications; every action has an owner and a basis.
 - **A human owns the actions.** Everything naming a person, counterparty, plan, contract or headcount
   is a proposal for review, with the thinnest evidence and the largest forward effects flagged.
 - **Respect the surface.** Plain Markdown is the default output. Where a rendered HTML deliverable is
-  genuinely called for — a dashboard, a styled report — apply the `velixo-design` skill bundled
-  alongside this one; it is the only place Velixo's palette and logo rules are authored. Never restyle
+  genuinely called for — a dashboard, a styled report — apply the `velixo-design` skill that
+  ships in the Velixo plugin; it is the only place Velixo's palette and logo rules are authored. Never restyle
   a customer's own template, an Excel worksheet or a Teams card with it.
 ## Quick reference
 
