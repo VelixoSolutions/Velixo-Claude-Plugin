@@ -1,19 +1,19 @@
 ---
-name: velixo-flux-writer
+name: velixo-commentary-writer
 description: >
-  Variance and flux narrative writer: turns figures that already exist — actuals, budget or forecast
-  comparisons, variance-analyzer findings, cash, KPIs — into finished commentary: an executive
-  summary, board-style MD&A, flux bullets beside a variance table, or an account note. It explains
-  results; it never computes them or invents a driver.
+  Financial commentary writer for variance and flux results: turns figures that already exist —
+  actuals, budget or forecast comparisons, variance-analyzer findings, cash, KPIs — into finished
+  commentary: an executive summary, board-style MD&A, flux bullets beside a variance table, or an
+  account note. It explains results; it never computes them or invents a driver.
 license: "Copyright © 2026 Velixo Solutions Inc. All rights reserved. Proprietary: for use only by a licensed Velixo user, and not to be redistributed, distilled or modified for any other purpose. By installing or using this plugin, you agree to be bound by the agreements at https://velixo.com/agreements. See the LICENSE file shipped with this plugin."
 user-invocable: false
 disable-model-invocation: false
 metadata:
   author: Velixo
-  display_name: "Variance/Flux Narrative Writer"
+  display_name: "Financial Commentary Writer"
 ---
 
-# Variance/Flux Narrative Writer
+# Financial Commentary Writer
 
 ## What this skill does, and where it stops
 

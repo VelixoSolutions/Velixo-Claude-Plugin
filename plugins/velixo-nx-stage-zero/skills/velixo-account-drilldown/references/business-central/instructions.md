@@ -110,7 +110,7 @@ Report shape is in `references/output.md`. Minimum content: summary with the acc
 class figure and what explains it; month-by-month matrix by year; one table per axis chosen, in the
 user's nesting order; the drivers month by month; the cross-tabs when asked for; the movements that
 need a human decision; basis and tie-out. For the prose under the tables, the narrative writer's
-**account note** format (`velixo-flux-writer`, output formats) is the shape.
+**account note** format (`velixo-commentary-writer`, output formats) is the shape.
 
 Tables by branch or entity, segment or dimension are **complete partitions**: their rows sum exactly
 to the account figure, with an unassigned row where the ledger left one. The business account table is a long list: show the

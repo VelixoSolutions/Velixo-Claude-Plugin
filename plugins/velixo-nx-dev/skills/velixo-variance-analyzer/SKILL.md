@@ -4,7 +4,7 @@ description: >
   Variance analyzer on Acumatica, Sage Intacct or Business Central: why a number moved or missed.
   Load for a month-end or quarter-end flux review, budget or forecast versus actual, or a department,
   project or cost overrun. Decomposes each material variance, drives it to an evidenced root cause and
-  classifies it. Produces findings; velixo-flux-writer writes the commentary.
+  classifies it. Produces findings; velixo-commentary-writer writes the commentary.
 license: "Copyright © 2026 Velixo Solutions Inc. All rights reserved. Proprietary: for use only by a licensed Velixo user, and not to be redistributed, distilled or modified for any other purpose. By installing or using this plugin, you agree to be bound by the agreements at https://velixo.com/agreements. See the LICENSE file shipped with this plugin."
 user-invocable: false
 disable-model-invocation: false

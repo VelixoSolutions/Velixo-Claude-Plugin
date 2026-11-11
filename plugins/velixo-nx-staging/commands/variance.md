@@ -1,5 +1,5 @@
 ---
-name: flux
+name: variance
 description: Run a month-end, quarter-end or period-range variance (flux) review on Acumatica, Sage Intacct or Business Central — root-cause findings, board-ready commentary, and an optional drill-down into any account by business account (vendor, customer, employee), segment or dimension, branch or entity, month by month.
 argument-hint: "<period | period range> vs <prior|prior-year|prior-years:<n>|budget:<name>|forecast:<name>> [branch:<b> | entity:<e>] [ledger:<l> | book:<b>] [materiality:<amount>,<percent>%[,both|either][,spine:<percent>%]] [drill:<account or class, or the full /drilldown arguments in quotes>]"
 ---
@@ -14,7 +14,7 @@ arguments or the user named, the only usable one, or ask which, with choices the
 
 - *The analyzer* is `velixo-variance-analyzer` and *the drill-down* is `velixo-account-drilldown`.
   Each opens its instructions for the connection's ERP (Acumatica, Sage Intacct or Business Central)
-  before any query, and stops on an ERP it has none for. `velixo-flux-writer` is the same for every
+  before any query, and stops on an ERP it has none for. `velixo-commentary-writer` is the same for every
   ERP.
 - Any `type` outside those three ERPs: say that no Velixo skill runs this for that ERP yet, and stop.
 
@@ -81,7 +81,7 @@ materiality rule, establish causes from records (never from plausibility), class
 forward effect. Produce its findings table and basis block, with every cause marked established,
 indicated or open.
 
-**Phase 2 — commentary.** Load `velixo-flux-writer` (`velixo-nx-staging:velixo-flux-writer`) before writing the first sentence of commentary, and apply it.
+**Phase 2 — commentary.** Load `velixo-commentary-writer` (`velixo-nx-staging:velixo-commentary-writer`) before writing the first sentence of commentary, and apply it.
 The analyzer produces findings, not prose, so commentary written without the writer skips its
 hedging rules and self-check. Feed it Phase 1's findings, not the raw ledger. Phase 1 has settled the
 writer's scope, baseline and materiality questions; the reader is the finance team reviewing the close and the

@@ -32,7 +32,7 @@ Acumatica connection. Never run these queries on a connection of another type.
 axes to break the figure out on, and in what order when there are several, in one message with
 choices the user can tap, and runs no query until it has the answer. "Analyze account 60000" with no
 axis named is that question, not a licence to pick one. The one exception: called from
-`/flux` with no axes passed, the default is business account and segment (segment only when
+`/variance` with no axes passed, the default is business account and segment (segment only when
 the subaccount carries more than one value with activity), and the flux says so in its output.
 
 Take the rest from the parent flux when called from it; otherwise ask for whatever is missing in the
@@ -179,7 +179,7 @@ Report shape is in `references/output.md`. Minimum content: summary with the acc
 class figure and what explains it; month-by-month matrix by year; one table per axis chosen, in the
 user's nesting order; the drivers month by month; the cross-tabs when asked for; the movements that
 need a human decision; basis and tie-out. For the prose under the tables, the narrative writer's
-**account note** format (`velixo-flux-writer`, output formats) is the shape.
+**account note** format (`velixo-commentary-writer`, output formats) is the shape.
 
 Tables by branch or entity, segment or dimension are **complete partitions**: their rows sum exactly
 to the account figure, with an unassigned row where the ledger left one. The business account table is a long list: show the

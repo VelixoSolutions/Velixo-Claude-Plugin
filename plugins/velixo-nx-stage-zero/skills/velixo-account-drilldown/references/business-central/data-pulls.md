@@ -175,7 +175,7 @@ window, and check the budget's sign against the actuals before comparing: the qu
 how.
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
-inserted at build time from Velixo's validated query library, built 2026-11-10 from
-38c1540. The notes beside each block are the caveats that matter when running it. When a
+inserted at build time from Velixo's validated query library, built 2026-11-11 from
+1d635db. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

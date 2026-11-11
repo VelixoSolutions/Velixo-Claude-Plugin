@@ -10,7 +10,7 @@ or a reforecast. Keep the writing functional: a reader should be able to scan th
 with one of them specifically, and see exactly which evidence they are disagreeing with.
 
 Where the deliverable is meant to be readable narrative, that is a different job —
-`skills/velixo-flux-writer/` — and the handoff below is how to get there.
+`skills/velixo-commentary-writer/` — and the handoff below is how to get there.
 
 ## Deliverable shape
 
@@ -143,7 +143,7 @@ Run every line. Each one catches a real class of error.
 
 ## Handoff
 
-**To the narrative writer.** `skills/velixo-flux-writer/` starts where this
+**To the narrative writer.** `skills/velixo-commentary-writer/` starts where this
 skill stops. Hand it the basis block, the ranked findings with their causes and evidence, the three
 roll-ups, the forward effect, and the open items — and mark every cause **established**, **indicated**
 or **open**, because the writer maps those three words straight onto its hedging ladder (established

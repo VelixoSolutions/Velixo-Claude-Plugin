@@ -14,7 +14,7 @@ arguments or the user named, the only usable one, or ask which, with choices the
 
 - *The analyzer* is `velixo-variance-analyzer` and *the drill-down* is `velixo-account-drilldown`.
   Each opens its instructions for the connection's ERP (Acumatica, Sage Intacct or Business Central)
-  before any query, and stops on an ERP it has none for. `velixo-flux-writer` is the same for every
+  before any query, and stops on an ERP it has none for. `velixo-commentary-writer` is the same for every
   ERP.
 - Any `type` outside those three ERPs: say that no Velixo skill runs this for that ERP yet, and stop.
 
@@ -69,7 +69,7 @@ and the budget when the baseline is a budget.
 
 Tie every table to the GL before presenting it. State patterns as findings and the reason behind each
 as a hypothesis until a contract, invoice, order or the line's owner confirms it. Write the summary
-paragraph in the narrative writer's account-note format (`velixo-flux-writer`, output formats).
+paragraph in the narrative writer's account-note format (`velixo-commentary-writer`, output formats).
 
 Return to the user: the skill's tables, the basis block (scope, windows, ledger or book,
 reconciliations, what was left out) and the open items. Label the output preliminary if any period is

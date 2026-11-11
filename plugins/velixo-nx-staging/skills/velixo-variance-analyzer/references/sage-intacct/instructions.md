@@ -23,7 +23,7 @@ organization predicts itself — a different question from how well it performs 
 It carries its own validated data pulls in `references/data-pulls.md`. It does **not** author new
 queries (run the pulls as written; if one fails, report the error and stop; where no pull has the grain
 needed, build that one through `prepare_query` and record it in the basis block), write the commentary
-(that is `velixo-flux-writer`, which this skill's findings feed), or decide anything — every action
+(that is `velixo-commentary-writer`, which this skill's findings feed), or decide anything — every action
 and reforecast it produces is a proposal for a named human.
 
 **The rule that governs everything below:** arithmetic never establishes cause. A decomposition tells
@@ -219,7 +219,7 @@ CONFIDENCE:      established | indicated | open — words, never a percentage
 FORWARD:         effect if nothing changes, kept separate from effect if actions land
 ACTIONS:         only where cause is evidenced; owner, horizon, quantified effect with its basis
 NEVER:           invent a volume, rate or cause; plug a residual; present timing as performance
-HANDOFF:         findings → velixo-flux-writer for the commentary, as a draft for finance review
+HANDOFF:         findings → velixo-commentary-writer for the commentary, as a draft for finance review
 ```
 
 Read a reference when the step that points to it is in front of you, not all of them up front —
