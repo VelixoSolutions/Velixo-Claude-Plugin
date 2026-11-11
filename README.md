@@ -22,4 +22,4 @@ Connects Claude to your ERP through the Velixo MCP server, with Velixo's finance
 Use the first one (`velixo`) unless you've been asked to test against a Velixo pre-release environment.
 Authentication is OAuth: you're prompted to sign in on first use.
 
-Version 2026.11.24.
+Version 2026.11.25.
