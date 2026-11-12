@@ -2,15 +2,15 @@
   "lockVersion": 1,
   "plugin": "velixo-nx-stage-zero",
   "host": "claude",
-  "version": "2026.11.25",
+  "version": "2026.11.27",
   "generatedBy": "Velixo-Intelligence-Plugins scripts/build.mjs",
-  "generatedAt": "2026-11-11",
-  "commit": "e1c8e93",
+  "generatedAt": "2026-11-12",
+  "commit": "f2e5c5d",
   "files": [
     {
       "path": "skills/velixo-design/SKILL.md",
       "source": "src/skills/velixo-design/SKILL.md.mustache",
-      "integrity": "sha256-25f6be369ff3dd5bd242e592f35eb68837df2a99be671eafe3c23d21d2424c7b"
+      "integrity": "sha256-b7f55d53a0dc2df9a5079ad7896f15d8bb89ca1442a657007a77d7bf509dda40"
     },
     {
       "path": "skills/velixo-design/references/dashboard-skeleton.md",
@@ -50,7 +50,7 @@
     {
       "path": "skills/velixo-variance-analyzer/references/acumatica/data-pulls.md",
       "source": "src/skills/velixo-variance-analyzer/references/acumatica/data-pulls.md.mustache",
-      "integrity": "sha256-8e08c3baf787505ab11a6fe1e70f537e6267ad5a4778b4f35c3415538b2e7e46"
+      "integrity": "sha256-899867dbfdf6aa0adfe85cccaa041dec663939f5a009493bf415137020b76c08"
     },
     {
       "path": "skills/velixo-variance-analyzer/references/acumatica/decomposition.md",
@@ -85,7 +85,7 @@
     {
       "path": "skills/velixo-variance-analyzer/references/business-central/data-pulls.md",
       "source": "src/skills/velixo-variance-analyzer/references/business-central/data-pulls.md.mustache",
-      "integrity": "sha256-fcf813815b6117dafc0d13b2c641b7ee63d014f321e7981380be7fc471f0b42d"
+      "integrity": "sha256-122f291b6a0b24643459f1bbedfcc22381a34c4bbc4ab96eb4d3b8bf7bd8315f"
     },
     {
       "path": "skills/velixo-variance-analyzer/references/business-central/decomposition.md",
@@ -120,7 +120,7 @@
     {
       "path": "skills/velixo-variance-analyzer/references/sage-intacct/data-pulls.md",
       "source": "src/skills/velixo-variance-analyzer/references/sage-intacct/data-pulls.md.mustache",
-      "integrity": "sha256-d23a9e3d598f4b017d6a4d36b01eef725de3f71771c77674cabf1613adc6f6d8"
+      "integrity": "sha256-f62cd5ce8be3c24c85a6cf5a78238954a840b12120f09b5f4357f51b72fa56e1"
     },
     {
       "path": "skills/velixo-variance-analyzer/references/sage-intacct/decomposition.md",
@@ -165,7 +165,7 @@
     {
       "path": "skills/velixo-account-drilldown/references/acumatica/data-pulls.md",
       "source": "src/skills/velixo-account-drilldown/references/acumatica/data-pulls.md.mustache",
-      "integrity": "sha256-0b19cb4c63367dbec480137ea9b8c51338d5d7afae70aced95818f1e26ad8fa6"
+      "integrity": "sha256-611f1f42f6c55b3e5ae47e24c6856bfc0e2ace1c08254c374db40e5f7caf357a"
     },
     {
       "path": "skills/velixo-account-drilldown/references/acumatica/instructions.md",
@@ -190,7 +190,7 @@
     {
       "path": "skills/velixo-account-drilldown/references/business-central/data-pulls.md",
       "source": "src/skills/velixo-account-drilldown/references/business-central/data-pulls.md.mustache",
-      "integrity": "sha256-e1b4bb81c19c5311f7b53ae9d91d7cb36f9b6df72d812116a077730ae39f75e8"
+      "integrity": "sha256-6af1a2a2e45d3f6755f787be8a81896f5b494f50bd7912b2017f59b25eb9ceaa"
     },
     {
       "path": "skills/velixo-account-drilldown/references/business-central/instructions.md",
@@ -210,7 +210,7 @@
     {
       "path": "skills/velixo-account-drilldown/references/sage-intacct/data-pulls.md",
       "source": "src/skills/velixo-account-drilldown/references/sage-intacct/data-pulls.md.mustache",
-      "integrity": "sha256-2c7870cae81a254f7999063975cf2225c14d3034f7e58077c3a7becc0445e6c8"
+      "integrity": "sha256-db46d8068a343b4bb87b81105182d75a6ecdb4df0fad6a9594b7e4e2715c71c6"
     },
     {
       "path": "skills/velixo-account-drilldown/references/sage-intacct/instructions.md",
@@ -235,7 +235,7 @@
     {
       "path": "skills/velixo-journal-entry/references/acumatica/data-pulls.md",
       "source": "src/skills/velixo-journal-entry/references/acumatica/data-pulls.md.mustache",
-      "integrity": "sha256-aa4300be83bbca551111b56480ce1dfc008fed6eecf0790cc5287b127db214da"
+      "integrity": "sha256-e318494eeab413850855399578708d80bc6d87ebd8938cce50b2313cc570287a"
     },
     {
       "path": "skills/velixo-journal-entry/references/acumatica/inputs-and-entry.md",
@@ -280,7 +280,7 @@
     {
       "path": "skills/velixo-journal-entry/references/business-central/data-pulls.md",
       "source": "src/skills/velixo-journal-entry/references/business-central/data-pulls.md.mustache",
-      "integrity": "sha256-bb387b7c95e1e7660e6f392b52d7aa90b84a68eaf47cca973d16d9562734aed2"
+      "integrity": "sha256-977c351da1dc1bfb6170bd1013d9fd813a05877683389797eff80ceceab4e3fc"
     },
     {
       "path": "skills/velixo-journal-entry/references/business-central/instructions.md",
@@ -295,7 +295,7 @@
     {
       "path": "skills/velixo-journal-entry/references/sage-intacct/data-pulls.md",
       "source": "src/skills/velixo-journal-entry/references/sage-intacct/data-pulls.md.mustache",
-      "integrity": "sha256-d929105dbcb563cc37624f7dc3a87e462c07e400cb5fcc994333f390f0a71e8a"
+      "integrity": "sha256-5f9fd99f38e4077a57d29285095f3db6bb008af4dfa74b45cd5733167e8cb20b"
     },
     {
       "path": "skills/velixo-journal-entry/references/sage-intacct/instructions.md",
@@ -325,7 +325,7 @@
     {
       "path": ".claude-plugin/plugin.json",
       "source": "plugins/claude/static/.claude-plugin/plugin.json.mustache",
-      "integrity": "sha256-821130f099d4a458ce1172ab341e2480be992c54b5406673e8cd3cb2bbed9ca8"
+      "integrity": "sha256-8b74b252c6f799023c00eda98637a09889900b28a497ce60415a14e55a598125"
     },
     {
       "path": ".mcp.json",
@@ -335,7 +335,7 @@
     {
       "path": "README.md",
       "source": "plugins/claude/static/README.md.mustache",
-      "integrity": "sha256-f72581d47e776787d28084afbea3be8a8a98fc72b344eda06e0fc85f3ad5bcda"
+      "integrity": "sha256-4bdeb748d2fdb18d82e15ee513c16853619a985c060cbe84d4758e675a80ae69"
     },
     {
       "path": "LICENSE",
