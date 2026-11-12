@@ -1,6 +1,9 @@
 # Data pulls from Acumatica
 
-These queries supply the scope, the ledger activity, the plan and the transaction-level evidence a
+**The figures come from Velixo functions first** (`F` pulls, under *Functions* below): the window
+totals, the monthly shape, the subaccount detail, the budget and the balances. The queries supply the
+scope (calendar, chart, branches), the transaction-level evidence, unposted batches and revenue by
+customer, and they are the fallback for every `F` pull. These queries supply the scope, the ledger activity, the plan and the transaction-level evidence a
 variance decomposition and root-cause investigation needs. Run them through the Velixo connector's
 `execute_query` as written, with your values in the `parameters` map. Do not call `prepare_query` for
 them and do not edit the text. If one fails, report the error and stop rather than reformulating it.
@@ -59,6 +62,11 @@ income and unfavourable on expense. State the convention once, in the basis bloc
 | 8 | Unposted GL batches in a period, with totals and the debit-credit gap | `gl-unposted-batches-by-period` |
 | 8b | Pull 8 over a period range, the period as a column | `gl-unposted-batches-by-period-range` |
 | 9 | Invoiced revenue by customer and period | `ar-revenue-by-customer-and-period` |
+| F0 | The accounts with history in a period range (function) | `gl-accounts-with-history` |
+| F1 | Each account's `Natural Net` for one window (function): first choice over 4, 4b, 4c, and 5 at account grain | `gl-turnover-by-account` |
+| F2 | Budget per account for one window, from the budget ledger (function): first choice over 6 | `gl-budget-turnover-by-account` |
+| F3 | One account by subaccount or segment for one window (function): first choice over 5 at subaccount grain | `gl-turnover-by-subaccount` |
+| F4 | Beginning and ending balances, every subaccount carried (function) | `gl-balance-by-account` |
 
 The shared method files call pull 7 **the transaction-lines pull**, and pull 2 **the chart pull**:
 on Acumatica it proposes the cost-of-sales and trading-revenue grouping from account class.
@@ -67,16 +75,173 @@ on Acumatica it proposes the cost-of-sales and trading-revenue grouping from acc
 
 | Entry point | Scope and structure | The gap | Cause and evidence |
 |---|---|---|---|
-| Income statement flux | 1, 2, 3 | 4c for the gap (or 4b per window), 4 for the shape, 5 for the detail | 7 per line, 5 at subaccount grain, 8 or 8b where a period is open |
-| Budget-to-actual | 1, 2, 3 | 5 and 6 at the same grain | 7 per line, 5 at subaccount grain, 8 where the period is open |
-| Forecast-to-actual | 1, 2, 3 | 5, against the forecast as supplied | 7 per line; 6 only if the forecast version was loaded as a budget |
-| Single cost line | 1, 2, 3 | 5 narrowed with `Account CD` | 7 for that account, 5 at subaccount grain, 8 where the period is open |
-| Revenue mix and customer effects | 1, 2, 3 | 5 on the revenue accounts | 9 alongside it |
+| Income statement flux | 1, 2, 3 | F0, then F1 for both windows in one call; F1 per month for the shape of the material accounts | 7 per line, F3 at subaccount grain, 8 or 8b where a period is open |
+| Budget-to-actual | 1, 2, 3 | F1 and F2 for the window, in one call, over the accounts on either side | 7 per line, F3 at subaccount grain, 8 where the period is open |
+| Forecast-to-actual | 1, 2, 3 | F1, against the forecast as supplied | 7 per line; F2 only if the forecast version was loaded as a budget ledger |
+| Single cost line | 1, 2, 3 | F1 for that account, every month in one call | 7 for that account, F3 at subaccount grain, 8 where the period is open |
+| Revenue mix and customer effects | 1, 2, 3 | F1 on the revenue accounts | 9 alongside it |
+| Balance-sheet movement | 1, 2, 3 | F4 for the window; ending less beginning ties to F1 | 7 per line, F3 at subaccount grain |
+
+When a function fails, its query answers: 4c or 4b for F1's windows, 4 for its months, 5 for its
+account and subaccount grain, 6 for F2. Say so in the basis block.
 
 Pull 1 runs for every window used, to label periods, get the remaining-period count right and flag
-open ones. Pull 5 is run twice on most analyses: once wide and coarse for the gap, once narrow and
-deep for the investigation. Where the account drill-down is in play (Step 5), it takes over pulls 5
-and 7 at business-account, segment and branch grain.
+open ones. F1 runs wide for the gap (the F0 accounts, every window in one call), then narrow and deep
+for the investigation (F1 per month, F3 by subaccount, for the material accounts only). Where the
+account drill-down is in play (Step 5), it takes over at business-account, segment and branch grain.
+
+## Functions
+
+The figures come from Velixo functions first, through the connector's `execute_velixo_function`; the
+queries are the fallback. Load the function tools' rules once:
+`tool_guidance(["get_started", "list_velixo_functions", "describe_velixo_function", "execute_velixo_function"])`,
+then `describe_velixo_function` once, naming every function this file uses: the argument order below is
+the one it reports. Every call carries `connectionName` and `intent`.
+
+- **Pass each invocation as written**, its `<placeholders>` replaced by your values, in the
+  `invocations` argument as a JSON array. Do not reorder, drop or add arguments: they have no names on
+  the wire, and an argument in the wrong place is read as something else.
+- **Summary first, detail for what matters.** Pull the accounts with activity, then their turnover for
+  the windows being compared, then compute materiality. Monthly history, budget detail and dimension
+  breakdowns are pulled only for the accounts that cross it. Fewer, wider calls are the aim, not one
+  call of every account by every month: a 900-row answer costs context and hides the few rows that
+  matter among hundreds of zeros.
+- **Batch:** up to 20 invocations a call, all windows and members of one step together; a result holds
+  at most 1,000 rows. Read every item's `status`: an item can fail while its siblings return figures.
+- **Lists:** an argument given a list returns one labelled row per member; the same members as one
+  range string return their sum. Two lists pair row by row and never cross; a `#` range takes no
+  other list. So accounts × windows is one invocation per window.
+- **Decimals:** a function returns a plain number with the trailing zeros dropped (`-268080`,
+  `-30421`). Present every amount with its two decimals (268,080.00), in tables, tie-outs and prose
+  alike, as the queries' figures read.
+- **Fall back to the query** when a function fails twice for the same arguments, or a breakdown needs
+  more than about 60 invocations (three calls): run the query named beside the function, as written,
+  and say in the basis block which pulls came from a query and why.
+
+Every ```` ```json ```` block here was inserted at build time from Velixo's validated function library,
+built 2026-11-12 from aea6566; the notes beside each block are the caveats that matter.
+When a figure looks wrong, say so with the function's name and the figures, and never change an
+invocation's shape to make it fit.
+On Acumatica:
+
+- **Sign:** every amount comes back as `Natural Net` already, budgets included. Never flip it.
+- **Ledger and branch are always named.** Left `null`, the function sums every ledger or every branch
+  in silence (40000 in January 2025: 7,754,056.12 over four branches, 4,101,771.26 on `PRODWHOLE`).
+  **Say the scope in every answer's basis block**, in words the user can act on: "Branch PRODWHOLE,
+  ledger ACTUAL, posted transactions only; ask for other branches, or to include unposted batches."
+  When the user asks for every branch, set the branch to `"#"` (one row per branch) and add only branches that
+  share a base currency and calendar (pull 3).
+- **Unposted work never comes from a function.** Leave the eighth argument, `IncludeUnposted`, out of
+  every invocation. `describe_velixo_function` lists `2` (unposted only) and `3` (posted and unposted),
+  but neither was validated. When the user asks about unposted work, take it from pull 8 (8b over a
+  range): its summary level lists the batches, its detail level their lines by account. Show it beside
+  the posted figures, and never add it into them.
+- **Subaccounts take a list**, member by member: `"#"` returns every subaccount, and a list of
+  patterns (``) one row per segment value. A segment breakdown is one
+  invocation per account and window.
+- **Periods** are the user's `MMYYYY` (`012025`), passed as written, exactly as to the queries.
+  `describe_velixo_function` calls the format `MM-YYYY`; the functions take `012025` as well, so never
+  rewrite a period into `01-2025`, and never into the year-first `202501`.
+### F0 — accounts with history
+
+The accounts with GL history in one ledger and branch over a period range, optionally within an
+account range: the account list the turnover pulls take. One row per account, no amounts.
+
+```json
+[{"functionName":"ACCOUNTSWITHHISTORY","arguments":["<Ledger ID>","<Branch ID>","<account range, or null>",null,"<Period From>","<Period To>"]}]
+```
+
+**Caveats**
+
+- **History is not movement.** An account is listed when GL history holds a row for it in the range,
+  which includes rows with no activity: drop the accounts whose turnover reads 0.00.
+- **Periods are the user's format** (`012025`); `01-2025` works too.
+- **The branch is always named.** Left `null`, every branch's accounts are listed.
+- The account range is a Velixo range (`40000:89999` for income and expense on a chart numbered that
+  way); the type and class come from the chart query (pull 2).
+
+### F1 — `Natural Net` by account for a window
+
+Each listed account's activity in one ledger and branch over a period range: one invocation per
+window, one labelled row per account, already in `Natural Net`. The flux table's two windows, the
+monthly history (one invocation per month) and the balance-sheet movement all come from it; up to 20
+invocations go in one `execute_velixo_function` call.
+
+```json
+[{"functionName":"ACCOUNTTURNOVER","arguments":["<Ledger ID>",null,[["<account>"],["<account>"]],null,"<Branch ID>","<Period From>","<Period To>"]}]
+```
+
+**Caveats**
+
+- **The figure is `Natural Net`**: income and liabilities positive when they grow, expense and assets
+  positive when they grow. Never flip it.
+- **The branch is always named.** Left `null`, every branch is summed into one figure (40000, January
+  2025: 7,754,056.12 over four branches, 4,101,771.26 on `PRODWHOLE`). `"#"` returns one row per
+  branch instead.
+- **Posted only.** Leave argument 8, `IncludeUnposted`, out, even when the user asks about unposted
+  work: its values `2` and `3` were not validated. Unposted batches and their lines by account come
+  from pull 8.
+- **A list returns one row per account; a range string returns their sum.** Two lists pair row by
+  row; a `#` range takes no other list, so accounts × periods is one invocation per period.
+- A window may end in the closing adjustment period (`132019`); say whether it was included.
+
+Type and class come from pull 2, joined on the account: a cost-of-sales or trading-revenue grouping
+is a client-side sum of F1's rows by class, once the user has confirmed it.
+
+### F2 — budget by account for a window
+
+A budget ledger's amount for each listed account, one branch and one window: the same function as the
+actuals with the budget ledger in the first argument. One invocation per window.
+
+```json
+[{"functionName":"ACCOUNTTURNOVER","arguments":["<budget Ledger ID>",null,[["<account>"],["<account>"]],null,"<Branch ID>","<Period From>","<Period To>"]}]
+```
+
+**Caveats**
+
+- **The budget ledger comes from the user** (`budget:<name>`), never the branch's actual ledger. A
+  tenant that keeps versions as separate ledgers has one ledger per version.
+- **Already `Natural Net`**, like the actuals: a budget variance is actual less budget, account by
+  account, with no sign change.
+- **0.00 on every account means no budget is loaded** for that branch and window, not a budget of zero.
+- The branch is always named, as for the actuals.
+
+### F3 — one account by subaccount or segment
+
+One account's activity by subaccount, or by a segment of the subaccount, in one ledger, branch and
+window: one invocation per account and window, one labelled row per subaccount or pattern.
+
+```json
+[{"functionName":"ACCOUNTTURNOVER","arguments":["<Ledger ID>",null,"<account>","#","<Branch ID>","<Period From>","<Period To>"]}]
+```
+
+**Caveats**
+
+- **`"#"` lists every subaccount**, zeros included; keep the non-zero rows.
+- **A segment axis is a list of patterns**, `?` for one character of another segment:
+  `[["CON???"],["ELE???"]]` returns one row per value of the first segment,
+  `[["???OPS"],["???FIN"]]` per value of the second. The values come from D0 (`subaccount-segments`);
+  which segment means what is the user's to confirm.
+- **The rows sum to the account's turnover**; a shortfall means a pattern list that misses a value.
+- `Natural Net`, posted only, the branch always named.
+
+### F4 — beginning and ending balances
+
+Each listed account's balance at the start of a period and at the end of another, in one ledger and
+branch, every subaccount included whether or not it moved. Both invocations go in one call.
+
+```json
+[{"functionName":"ACCOUNTBEGINNINGBALANCE","arguments":["<Ledger ID>",null,[["<account>"],["<account>"]],null,"<Branch ID>","<Period From>"]},
+ {"functionName":"ACCOUNTENDINGBALANCE","arguments":["<Ledger ID>",null,[["<account>"],["<account>"]],null,"<Branch ID>","<Period To>"]}]
+```
+
+**Caveats**
+
+- **Ending less beginning equals the window's turnover** (`gl-turnover-by-account`): the tie-out.
+- **Every subaccount counts, quiet ones included.** GL history holds a row only for a subaccount that
+  moved in the period, so a balance read from the period's rows drops the quiet ones; the function
+  carries each one's balance forward. `"#"` in the subaccount argument returns one row per subaccount.
+- The branch is always named.
 
 **Activity and rate data has no pull here.** Unit volumes, hours, headcount, standard costs and
 contracted rates are not in the general ledger. They come from an operational system, from a licensed
@@ -676,6 +841,6 @@ Record each result in the basis block with both figures and the difference.
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-12 from
-c84e28f. The notes beside each block are the caveats that matter when running it. When a
+aea6566. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

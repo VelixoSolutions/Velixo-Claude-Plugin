@@ -34,7 +34,7 @@ unexplained with a stated next step, never filled in with a reason that merely f
 ## Before the first query — the connection and its ERP
 
 The connection was chosen, and its `type` read, in `SKILL.md` before this file was opened: it is a
-Sage Intacct connection. Never run these queries on a connection of another type.
+Sage Intacct connection. Never run these functions or queries on a connection of another type.
 
 ## Step 1 — Settle scope, baseline and convention before computing anything
 
@@ -69,6 +69,8 @@ and figure status directly.
 
 On Sage Intacct, scope is an **entity** (or several, side by side), a **reporting book** (Accrual
 unless the user names another) and **date windows**; a baseline budget is named by its budget ID.
+An entity includes its child locations unless the user asks for the location only; the basis block
+says which, so the user can ask to exclude them.
 
 **Periods: a month is the unit.** The user may name a month ("June 2018"), a month-end date ("30
 June 2018") or an Acumatica-style period (`062018`, `MMYYYY`); each names one calendar month, and
@@ -86,7 +88,9 @@ date over the window either way, because a journal line carries no reporting per
 
 ## Step 2 — Get the figures
 
-`references/sage-intacct/data-pulls.md` carries the queries and which ones each entry point needs. Three things
+`references/sage-intacct/data-pulls.md` carries the pulls and which ones each entry point needs: Velixo
+functions (`execute_velixo_function`) for every balance, activity and budget figure, VQL queries for
+the reference data, the documents and the fallback. Three things
 silently change every number: the book (every GL read names one, or the books are summed); the
 cost-of-sales accounts, which the user confirms before any margin figure; and the period's status,
 which no pull here reads: ask whether the period is closed, and label it preliminary when it is the

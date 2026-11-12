@@ -69,8 +69,10 @@ same message:
 
 ## Step 2 — Pull the data
 
-Every query is in `references/acumatica/data-pulls.md` with its parameter table; run each as written, with
-`top` high enough that the result is not `truncated`. Which pull serves which table depends only on
+Every pull is in `references/acumatica/data-pulls.md`: functions (`F`) through `execute_velixo_function`, queries
+with their parameter tables through `execute_query`, each run as written, a query with `top` high
+enough that the result is not `truncated`. A function that fails falls back to the query in the
+control column's place (pull 5 for F1 and F3, D5 for F5, pull 6 for F2), named in the basis block. Which pull serves which table depends only on
 the axis, whether branches were named, and whether a subaccount filter is set:
 
 | Table | Branches named | Subaccount filter | Pull | Control it ties to |
@@ -78,14 +80,14 @@ the axis, whether branches were named, and whether a subaccount filter is set:
 | Business account | yes | no | D1 per named branch, with `Branch ID` | D5 per branch, then pull 5 per branch |
 | Business account | no (whole ledger) | no | D1 once, without `Branch ID` | D5 once, per branch inside it |
 | Business account | either | yes | D2, keeping the matching subaccounts | D6 filtered the same way |
-| Segment | yes | either | pull 5 at subaccount grain per branch, split with D0 | pull 5 at account grain |
-| Segment | no | either | D6 once, split with D0 | D5 per branch |
+| Segment | yes | either | F3 per account and window, one pattern per D0 segment value, every invocation in one call | F1 |
+| Segment | no | either | F5 (`"#"`) for the branches with activity, then F3 per branch with activity, account and window; past about 60 invocations, D6 once, split with D0 | F1 per branch |
 | Segment × business account cross-tab | either | either | D2 for the current window (`Branch ID` when named) | D6, or pull 5 |
-| Branch | — | no | D5 once, ledger-wide | pull 5 per branch with activity |
+| Branch | — | no | F5 per account and window, every branch in one invocation | F1 per branch; D5 when lines are needed |
 | Branch | — | yes | D6, keeping the matching subaccounts | — |
 | Branch × business account | — | no | D1 without `Branch ID` | D5 per branch |
-| Budget beside segments or branches | per branch | — | pull 6 per branch; D4 for the current window | pull 6 |
-| Margin by segment | per branch | either | D6b per window, revenue and cost accounts together, decoded with D0 | pull 5 per account |
+| Budget beside segments or branches | per branch | — | F2 per branch; F3 on the budget ledger by segment; D4 for the current window | F2 |
+| Margin by segment | per branch | either | F3 per window on the revenue and cost accounts together, one pattern per D0 value | F1 per account |
 | Cost of sales by customer | per branch | no | D12 for the window, summed by customer | D8's `IN` lines with an AR link; the rest of the account is its own row |
 | Documents behind one cell | the cell's | pattern allowed | D7 with the cell's own filters, or D8 and the pull its module routes to (Step 5) | the cell |
 
@@ -97,24 +99,24 @@ for those two axes.
 
 **Two pulls run on every drill-down, whatever the axis, and are not optional,** both in `references/acumatica/data-pulls.md`:
 **pull 1** (the period calendar — the only source of each period's status, so "preliminary" is a
-finding from it, never an assumption) and **pull 5** at account grain for each branch in scope (GL
-history — the balance every table ties to). D5 is posted lines, the same source as D1; agreeing with
+finding from it, never an assumption) and **F1** for each account, branch and window in scope (GL
+history — the balance every table ties to; pull 5 at account grain when F1 fails). D5 is posted lines, the same source as D1; agreeing with
 it proves the business-account join dropped nothing, not that the table ties to the GL. A write-up
-whose basis block says pull 5 or pull 1 was not run is incomplete.
+whose basis block says neither F1 nor pull 5 was run, or pull 1 was not, is incomplete.
 
 ## Step 3 — Tie out before analysing
 
 Every table ties to the GL before anything is read from it:
 
 - **Business account:** for every account and window, D1's `Natural Net` summed across all business
-  accounts equals the account's activity from pull 5 (GL history). D5 is the second check, for the
+  accounts equals the account's activity from F1 (GL history; pull 5 when F1 fell back). D5 is the second check, for the
   join; it does not replace pull 5.
-- **Branch:** for every branch that carries activity on the account in the window, D5 equals pull 5
-  run for that branch. Each branch ties on its own. With every branch in scope, run pull 5 for the
-  branches D5 shows activity on, say how many, and report any that does not tie.
-- **Segment:** each segment table sums to the account's activity for every window, D6 equals D5 per
-  branch, account and window, and D2 sums to D6 (or pull 5) per account for the current window.
-- **Budget:** D4 summed per account equals pull 6 for the same branch, ledger and window.
+- **Branch:** F5's branches sum to the account's all-branch F1, and each branch's F5 row equals F1
+  for that branch. With D5 in play, D5 equals F5 branch by branch.
+- **Segment:** each F3 table sums to the account's F1 for every window (a shortfall is a segment value
+  the pattern list missed); with D6 in play, D6 equals D5 per branch, account and window, and D2 sums
+  to F3 (or D6) per account for the current window.
+- **Budget:** D4 summed per account equals F2 for the same branch, ledger and window.
 - **Business account join:** D1, branch by branch, equals D5 on every account. A shortfall on an
   account whose lines carry references, while D5 ties to pull 5, is posted lines whose business
   account the query cannot read — a deleted record, or one the connector's user is restricted from —

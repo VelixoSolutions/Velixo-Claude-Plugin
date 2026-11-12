@@ -1,6 +1,6 @@
 {
   "name": "velixo-nx-staging",
-  "version": "2026.11.30",
+  "version": "2026.11.31",
   "description": "Connect Claude to your ERP through the Velixo MCP server. Ask questions of your financial and operational data in plain language, read screens and run reports, create and update records with your confirmation, attach files and export results to Excel, and analyze them with Velixo's finance skills: variance and flux analysis, account drill-downs, journal entries and board-ready output.",
   "author": { "name": "Velixo", "email": "support@velixo.com", "url": "https://velixo.com" },
   "homepage": "https://velixo.com",

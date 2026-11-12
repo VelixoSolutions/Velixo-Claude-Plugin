@@ -1,6 +1,6 @@
 # Reading a business-account-by-month matrix
 
-The business-account pull is D1, run once per month, and the lines pull is D3 (`data-pulls.md`).
+The business-account matrix is F4 then F5, every month in one call (D1 once per month when it falls back), and the lines pull is D3 (`data-pulls.md`).
 
 Build three views from the business-account pull (`Natural Net`, with the debits, credits and line
 count kept beside it) before writing anything:

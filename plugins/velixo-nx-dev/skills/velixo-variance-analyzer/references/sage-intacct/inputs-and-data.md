@@ -33,9 +33,10 @@ the actuals are recorded at — each produces a large, confident, entirely ficti
   in the same line table; a read that does not name the book counts the main book's postings once
   per book (RD-14533: Skyline's 2021 revenue reads 117,648.00 over all books and 6,200.00 in
   Accrual).
-- **There is no GL history table.** Every balance and every window's activity is summed from journal
-  lines, debits and credits in separate rows. `Natural Net` is computed from the account's normal
-  balance.
+- **Velixo's functions read Sage's balances; the queries sum journal lines.** `SI.TURNOVER`,
+  `SI.BUDGETTURNOVER` and the balance functions return one debit-positive figure per account; the VQL
+  fallback returns debits and credits in separate rows. Either way `Natural Net` is computed from the
+  account's normal balance.
 - **Entities have their own base currencies.** `baseAmount` is in the entity's currency; two entities
   with different currencies are never added.
 - **Dimensions are the business axes**: department, class, project, customer, vendor, employee, item
@@ -43,8 +44,8 @@ the actuals are recorded at — each produces a large, confident, entirely ficti
 - **Only posted lines count.** Draft and submitted entries keep their lines in the same table; every
   GL pull filters on `Line.state = 'posted'`. Work not yet posted, and whether the period is closed,
   come from the user.
-- **Budgets are their own objects**, by budget ID, account and reporting period, already in the
-  natural sign.
+- **Budgets are their own objects**, by budget ID, account and reporting period. `SI.BUDGETTURNOVER`
+  returns them debit-positive like the actuals; the budget query returns them in the natural sign.
 
 ## Entry point 1 — Income statement flux
 

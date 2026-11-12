@@ -6,20 +6,20 @@ branches are few, every posted line carries one, and each branch has its own GL 
 
 ## Build it
 
-1. **Run D5** once, ledger-wide, from the first period of the earliest window to the last of the
-   current one: branch × account × period with no business account join, so it ties to GL history by
-   construction. Resolve branch codes to names, and to companies, with pull 3 in
-   `references/acumatica/data-pulls.md`; D5 carries codes only, because `Branch.AcctName` cannot be grouped on.
-2. **Branch table.** Roll D5 up to branch × account (or account class) × window: each branch's total per
-   window and the change, branches side by side as columns.
-3. **Tie out per branch.** Run pull 5 for each branch in scope (with `Ledger ID`) and match it per
-   account and window. A branch that doesn't tie stops the run for that branch.
+1. **Run F5**, one invocation per account and window with `"#"` for the branch, every invocation in one
+   call: one labelled row per branch, read from GL history. Resolve branch codes to names, and to
+   companies, with pull 3 in `references/acumatica/data-pulls.md`. D5 (branch × account × period from posted lines)
+   when F5 fails, or when the business-account join has to be checked against lines.
+2. **Branch table.** F5's rows by branch × account (or account class) × window: each branch's total per
+   window and the change, branches side by side as columns. Never add branches with different base
+   currencies or calendars (pull 3).
+3. **Tie out per branch.** The branches sum to the account's all-branch F1, and each branch's row
+   equals F1 run with that branch. A branch that doesn't tie stops the run for that branch.
 4. **Nest when asked.** Branch → business account comes from D1 without `Branch ID`, the same lines by business account;
    where D1 falls short of D5 on a branch, the difference is a *Business account not visible* row (the
-   skill's Step 3). Branch → segment comes from pull 5 at subaccount grain, run per branch and split
-   with D0.
-5. **Against budget.** When the scope carries a budget, pull 6 per branch (with `Ledger ID` set to the
-   budget ledger) adds a budget column and a variance to the branch table.
+   skill's Step 3). Branch → segment is F3 run per branch with the D0 patterns.
+5. **Against budget.** When the scope carries a budget, F5 on the budget ledger (or F2 per branch, pull 6
+   when it fails) adds a budget column and a variance to the branch table.
 
 ## Read it
 

@@ -69,19 +69,21 @@ and figure status directly.
 
 ## Step 2 — Get the figures
 
-`references/acumatica/data-pulls.md` carries the queries, which pulls each entry point needs, what to check in
+`references/acumatica/data-pulls.md` carries the pulls (Velixo functions, through `execute_velixo_function`, for
+every activity, balance and budget figure; GIQL queries for scope, evidence and the fallback), which
+pulls each entry point needs, what to check in
 each result before trusting it, and the reconciliations that have to pass before any finding is
 reported. Three things from it silently change every number downstream: supply the ledger wherever
 more than one actual ledger exists; have the user confirm the cost-of-sales accounts before any
 margin figure; and check the period's status, because in an open period unposted work is invisible
 to every balance comparison and a favourable expense variance is usually work that has not landed.
 
-Pull at the grain the analysis reads. When a per-period pull would return more than about 250 rows and
-only the window total is needed, run its window-summed variant (pull 4b, 4c, 8b); never page through a
-per-period pull just to sum it. When no pull has the grain at all, `prepare_query` is allowed for that
+Pull at the grain the analysis reads. A window total is one F1 invocation per window, every window in
+one call; when a query answers instead and a per-period pull would return more than about 250 rows,
+run its window-summed variant (pull 4b, 4c, 8b); never page through a per-period pull just to sum it. When no pull has the grain at all, `prepare_query` is allowed for that
 one query: say so in the basis block, with the tie-out it passed.
 
-**On Acumatica, scope is read this way.** Periods are `MMYYYY`, passed to every query exactly as
+**On Acumatica, scope is read this way.** Periods are `MMYYYY`, passed to every function and query exactly as
 typed (`012025`); never rewrite one into the internal year-first form (`202501`): the connector does
 that translation, and a year-first value matches no period and returns no rows. `prior` for `012025`
 is `122024`, and for `012025-032025` it is `102024-122024`. Review one branch at a time: with none

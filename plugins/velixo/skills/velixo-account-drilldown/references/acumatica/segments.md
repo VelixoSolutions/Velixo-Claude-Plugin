@@ -7,16 +7,19 @@ tenant. Together they say whether a movement has an owner.
 ## Build it
 
 1. **Structure.** Run D0. Record each segment's order, length, description and value labels.
-2. **Breakdown across windows.** From D6 (every branch in scope) or pull 5 (a named branch), at
-   subaccount grain, for every window, split each `SubCD` into its segments and total the account or
-   account class **per segment**, one table per segment: value, label, each window's total, change.
-   Also keep the full-subaccount table for combinations that matter.
+2. **Breakdown across windows.** F3, one invocation per account and window, the subaccount argument a
+   list of patterns, one per value of the segment from D0 (`[["CON???"],["ELE???"]]`): each row is one
+   value's total, already split. Every window of every account goes in one call (20 invocations a
+   call). One table per segment: value, label, each window's total, change. `"#"` in place of the
+   patterns keeps the full-subaccount table for combinations that matter. When F3 fails, D6 (every
+   branch in scope) or pull 5 (a named branch) at subaccount grain, split client-side.
 3. **Cross-tab with business accounts.** Run D2 (with `Branch ID` for one branch, or without it for
    the whole ledger) for the current window (and the comparison window when a business account's
    coding may have changed). Pivot business account × segment value for the material business
    accounts and the unassigned bucket.
-4. **Tie out.** Each segment table sums to the account or account class total for every window, and D2 sums to D6 or pull 5
-   per account. A difference stops the run.
+4. **Tie out.** Each segment table sums to the account or account class total from F1 for every
+   window (a shortfall is a segment value the pattern list missed), and D2 sums to F3 (or D6, or pull
+   5) per account. A difference stops the run.
 
 ## Read it
 
@@ -46,14 +49,15 @@ read revenue and cost on the same segment value instead of each account on its o
    output. Never infer what a value means from the item descriptions on its lines: a product-group code full
    of oven lines is still whatever D0 says it is, and an `<Uncategorized>` or all-zero value is the unassigned
    bucket whatever sits in it.
-2. **Pull both sides in one call per window.** Run D6b for the branch with the revenue account(s) and the
-   cost-of-sales account(s) together (the accounts the user confirmed as trading revenue and cost of sales),
-   once per window.
+2. **Pull both sides in one call.** F3 for the branch on each revenue and cost-of-sales account (the
+   accounts the user confirmed as trading revenue and cost of sales), one invocation per account and
+   window, the segment's D0 values as patterns, every invocation in one call. D6b once per window
+   when F3 fails.
 3. **Pair on the segment value.** For each value of the segment that carries the product or line of
    business: revenue, cost, gross margin (revenue less cost, both `Natural Net`) and margin percent, per
    window, and the change. Keep the full-subaccount pairing when two segments both carry activity.
-4. **Tie out.** Revenue and cost each sum, over the values, to pull 5 (or pull 4b) for the account and
-   window. A value with revenue and no cost, or cost and no revenue, is its own row: cost coded to the
+4. **Tie out.** Revenue and cost each sum, over the values, to F1 (or pull 5, or pull 4b) for the
+   account and window. A value with revenue and no cost, or cost and no revenue, is its own row: cost coded to the
    unassigned bucket while revenue is coded to a product group is a coding finding, not a margin.
 5. **Then go to the lines that move it.** Where one value's margin moved, D12 for that branch and window
    shows which invoice lines and items carry the change, with quantity invoiced against quantity issued.
@@ -83,7 +87,8 @@ GIQL can group on a segment directly: `{=Left([Sub.SubCD], n)}` or
 `SV.Value = {=Left([Sub.SubCD], n)}` (the function on the right-hand side of the comparison) for the
 label. The lengths are tenant-specific, so such a query cannot be validated once and run as written;
 it needs a `prepare_query` rebuild from D2 for each tenant. Reach for it only when a result is too
-large to split client-side, and tie the result to pull 5 as usual.
+large to split client-side, and tie the result to F1 as usual. F3's patterns make this unnecessary in
+most cases: the split happens in the function.
 
 ## Report it
 

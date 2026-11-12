@@ -23,7 +23,7 @@ in one pass. It does **not** decide causes.
 
 **The grouping is the user's choice, never yours.** Invoked on its own, ask which axis or axes to
 break the figure out on (business account, a dimension, entity), and in what order, in one message
-with choices the user can tap, and run no query until it has the answer. Called from a flux with no
+with choices the user can tap, and run no pull until it has the answer. Called from a flux with no
 axes passed, the default is business account and department, and the output says so.
 
 Ask in the same message for whatever else is missing:
@@ -35,8 +35,8 @@ Ask in the same message for whatever else is missing:
    is read and tied on its own; entities with different base currencies are never added together.
 4. **Accounts:** one or more account numbers. Every pull is per account.
 5. **Windows:** the current window, and each comparison window the user asked for; no comparison
-   unless one is named. Month by month is one call per month (VQL has no date functions), so pull
-   the months in between only when comparing. Months resolve as *Periods* below says.
+   unless one is named. Every window goes in the same function call, one invocation each; pull the
+   months in between only when comparing. Months resolve as *Periods* below says.
 6. **Depth:** one table per axis chosen; the documents behind a cell only where it pays (Step 5).
 
 ### Periods
@@ -58,38 +58,44 @@ date over the window either way, because a journal line carries no reporting per
 ### Connection and ERP
 
 The connection was chosen, and its `type` read, in `SKILL.md` before this file was opened: it is a
-Sage Intacct connection. Never run these queries on a connection of another type.
+Sage Intacct connection. Never run these functions or queries on a connection of another type.
 
 ## Step 2 — Pull the data
 
-Every query is in `references/sage-intacct/data-pulls.md` with its parameter table; run each as written. Read the
-chart (C1) and the entities (E1) once per run. Then, per account, entity and window: T1 for the
-account's total, and D1 (business account) or D2 (dimensions) for the axis chosen. A run of more
-than about 40 calls (accounts × entities × months) is too large for one answer: say how many it
-needs and offer to narrow it first.
+Every pull is in `references/sage-intacct/data-pulls.md`, which also maps each axis to its dimension; run each as
+written. Read the chart (C1) and the entities (E1) once per run. Then follow its sequence: the
+members that moved (F4), then in one call the account's turnover for each window (F1), each member's
+(F5) and their names (F6). Past about 60 invocations, switch the axis to its query (D1 or D2), one
+per window, and say so. A run of more than about 40 calls in all is too large for one answer: say
+how many it needs and offer to narrow it first.
 
 ## Step 3 — Tie out before analysing
 
-- **Every table ties to T1:** D1 and D2, summed per account, entity and window, equal the account's
-  activity from T1 for the same three. D3 sums to the cell it was pulled for.
-- **A short total is a finding, not a stop.** When an axis table is below T1, report both figures
+- **Every table ties to F1** (T1 when F1 fell back): the members of an axis (F5, F7, or D1 and D2),
+  summed per account, entity and window, equal the account's activity for the same three. D3 sums to
+  the cell it was pulled for.
+- **A short total is a finding, not a stop.** When an axis table is below F1, report both figures
   and show the difference as its own row, never spread across the others (the shared rules below).
-  First rule out the mechanical causes: a truncated result, a different book, or the 25,000-line cap
-  reached; rerun with a shorter window before calling it a finding.
-- **Sign:** compute `Natural Net` from C1's normal balance (debit less credit on a `debit` account,
-  credit less debit on a `credit` one) and present it everywhere; state the convention once.
+  With F5 that row is the axis's unassigned lines, which F4 never lists. First rule out the
+  mechanical causes: a failed item in the batch, a truncated result, a different book, the child flag
+  left out, or the 25,000-line cap of a query; rerun before calling it a finding.
+- **Sign:** the functions return debit-positive figures and the queries debit and credit rows.
+  Compute `Natural Net` from C1's normal balance (the figure as returned, or debit less credit, on a
+  `debit` account; its opposite on a `credit` one) and present it everywhere; state the convention
+  once.
 
 ## Step 4 — Classify and read
 
 | Class | How to recognise it | How to report it |
 |---|---|---|
-| Customer | `Customer ID` set | By name |
-| Vendor | `Vendor ID` set | By name |
-| Employee | `Employee ID` set and no customer or vendor | By ID, or the name the user gives |
-| No business account | none of the three | Its own line, **No business account**; never allocated. AR batch summaries ("… Batch Summary Entry") carry no customer |
+| Customer | an F5 member on `CUSTOMER`, or `Customer ID` set in D1 | By name (F6) |
+| Vendor | an F5 member on `VENDOR`, or `Vendor ID` set in D1 | By name (F6) |
+| Employee | an F5 member on `EMPLOYEE`, or in D1 `Employee ID` set and no customer or vendor | By name (F6), or the ID |
+| No business account | the account's F1 less its members' sum, or none of the three in D1 | Its own line, **No business account**; never allocated. AR batch summaries ("… Batch Summary Entry") carry no customer |
 
 A line with both a customer and an employee (time-and-materials revenue) is the customer's on a
-revenue account: say so. For a dimension axis, an empty value is the **unassigned** row of that axis.
+revenue account: say so, and never add a customer axis and an employee axis together, since the same
+line is in both. For a dimension axis, an empty value is the **unassigned** row of that axis.
 Then read the patterns in `references/sage-intacct/patterns.md`.
 
 ## Step 5 — Go to documents only where it pays
@@ -114,7 +120,9 @@ top movers, a remainder row and the total that ties, and say that the rows shown
 not the population. Decode every code to its label: segment or dimension values to their
 descriptions, branch or entity codes to names.
 
-Every amount is in its entity's base currency (E1), named beside it.
+Every amount is in its entity's base currency (E1), named beside it. The basis block says whether
+each entity includes its child locations (the default) or reads the location only, as the user asked,
+so the user can ask to exclude them.
 
 ## Rules that do not bend
 
