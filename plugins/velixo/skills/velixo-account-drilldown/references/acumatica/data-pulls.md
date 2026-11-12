@@ -790,6 +790,6 @@ Pass every key in this table. An optional key you are not using goes in as `null
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
 inserted at build time from Velixo's validated query library, built 2026-11-12 from
-10c1fe2. The notes beside each block are the caveats that matter when running it. When a
+bbe59f0. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.
