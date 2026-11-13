@@ -122,4 +122,4 @@ copy-ready HTML starting point.
 `references/dashboard-skeleton.md` is a minimal HTML page wired to the variables above — header, KPI
 cards, a variance table with favourable/unfavourable cells, light and dark, a footer — ready to fill.
 
-Built 2026-11-12 from `src/context/brand-style.md` at aea6566.
+Built 2026-11-13 from `src/context/brand-style.md` at d992d37.

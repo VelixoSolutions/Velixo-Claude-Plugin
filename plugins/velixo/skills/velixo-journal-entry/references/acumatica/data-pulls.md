@@ -197,7 +197,7 @@ SELECT Batch.BatchNbr AS 'Batch Number', Batch.BranchID AS 'Batch Branch Code', 
   `Released`, `Posted` and `Hold` beside it.
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
-inserted at build time from Velixo's validated query library, built 2026-11-12 from
-aea6566. The notes beside each block are the caveats that matter when running it. When a
+inserted at build time from Velixo's validated query library, built 2026-11-13 from
+d992d37. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.

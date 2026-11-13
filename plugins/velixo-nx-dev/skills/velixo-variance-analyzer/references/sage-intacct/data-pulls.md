@@ -74,7 +74,7 @@ the one it reports. Every call carries `connectionName` and `intent`.
   and say in the basis block which pulls came from a query and why.
 
 Every ```` ```json ```` block here was inserted at build time from Velixo's validated function library,
-built 2026-11-12 from aea6566; the notes beside each block are the caveats that matter.
+built 2026-11-13 from d992d37; the notes beside each block are the caveats that matter.
 When a figure looks wrong, say so with the function's name and the figures, and never change an
 invocation's shape to make it fit.
 On Sage Intacct:
@@ -318,7 +318,7 @@ SELECT Detail.glAccount.id AS 'GL Account ID', Detail.reportingPeriod.id AS 'Rep
 Already in the natural sign: never flip it, and never compare it with F2 unconverted.
 
 Every query block above (`giql` for Acumatica, `vql` for Sage Intacct and Business Central) was
-inserted at build time from Velixo's validated query library, built 2026-11-12 from
-aea6566. The notes beside each block are the caveats that matter when running it. When a
+inserted at build time from Velixo's validated query library, built 2026-11-13 from
+d992d37. The notes beside each block are the caveats that matter when running it. When a
 result looks wrong, say so with the query's name and the figures, and never edit the query to make
 it fit: a changed query is no longer the validated one.
