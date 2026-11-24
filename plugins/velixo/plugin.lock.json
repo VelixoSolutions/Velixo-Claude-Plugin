@@ -2,15 +2,15 @@
   "lockVersion": 1,
   "plugin": "velixo",
   "host": "claude",
-  "version": "2026.11.47",
+  "version": "2026.11.66",
   "generatedBy": "Velixo-Intelligence-Plugins scripts/build.mjs",
   "generatedAt": "2026-11-24",
-  "commit": "2ea646b",
+  "commit": "2409bfd",
   "files": [
     {
       "path": ".claude-plugin/plugin.json",
       "source": "plugins/claude/static/.claude-plugin/plugin.json.mustache",
-      "integrity": "sha256-3cee8a0b76af1fb450e36a5322e1218048f72a3f6b1fba039af7c08ed761ecd7"
+      "integrity": "sha256-b5e9dcb47a2bf1c56ad5e209a53c8a5241cffe5104663a5f156535d3c0635aec"
     },
     {
       "path": ".mcp.json",
@@ -20,7 +20,7 @@
     {
       "path": "README.md",
       "source": "plugins/claude/static/README.md.mustache",
-      "integrity": "sha256-e50265ae9e952c94b8ff775258d83602238b80553b098ca3acce68dfffdb1e7a"
+      "integrity": "sha256-0a96cf4cc8a3213e9adab615370c87c3bcdb7b21cae63a701dc7df4bd945c8be"
     },
     {
       "path": "icon.png",
