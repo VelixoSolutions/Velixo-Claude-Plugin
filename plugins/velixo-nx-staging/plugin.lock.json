@@ -2,15 +2,15 @@
   "lockVersion": 1,
   "plugin": "velixo-nx-staging",
   "host": "claude",
-  "version": "2026.11.66",
+  "version": "2026.11.75",
   "generatedBy": "Velixo-Intelligence-Plugins scripts/build.mjs",
-  "generatedAt": "2026-11-24",
-  "commit": "2409bfd",
+  "generatedAt": "2026-11-26",
+  "commit": "bd03333",
   "files": [
     {
       "path": ".claude-plugin/plugin.json",
       "source": "plugins/claude/static/.claude-plugin/plugin.json.mustache",
-      "integrity": "sha256-da0861b89d1dd50d4cf7d0888fbfd8ca29bbd249e737d8c9eec0bc33cc127377"
+      "integrity": "sha256-c0ffb83f9957d2e1c38a0396ef0ccaaac3f29023095500f03dc5de4ab5a1e28c"
     },
     {
       "path": ".mcp.json",
@@ -20,7 +20,7 @@
     {
       "path": "README.md",
       "source": "plugins/claude/static/README.md.mustache",
-      "integrity": "sha256-e797e28389859091f853416031515661b5f338c7ee76aa089b343866d88fe242"
+      "integrity": "sha256-46b4818dc9ea89309d9ad877dae84be854fd1b2724fc2cdf38a5a6e7530a20de"
     },
     {
       "path": "icon.png",
