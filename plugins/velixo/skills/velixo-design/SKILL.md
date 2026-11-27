@@ -173,4 +173,4 @@ download fails, write the text "Velixo" in `--ink` (white on a band) in its plac
 cards, a variance table with favourable/unfavourable cells, light and dark, a footer — ready to fill.
 `references/file-recipes.md` does the same for Excel, Word, PowerPoint and PDF files.
 
-Built 2026-11-27 from `src/context/brand-style.md` at bf13e32.
+Built 2026-11-27 from `src/context/brand-style.md` at 6a5c63b.
