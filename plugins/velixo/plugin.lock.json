@@ -2,15 +2,30 @@
   "lockVersion": 1,
   "plugin": "velixo",
   "host": "claude",
-  "version": "2026.11.75",
+  "version": "2026.11.85",
   "generatedBy": "Velixo-Intelligence-Plugins scripts/build.mjs",
-  "generatedAt": "2026-11-26",
-  "commit": "bd03333",
+  "generatedAt": "2026-11-27",
+  "commit": "bf13e32",
   "files": [
+    {
+      "path": "skills/velixo-design/SKILL.md",
+      "source": "src/skills/velixo-design/SKILL.md.mustache",
+      "integrity": "sha256-6f4da895c555fe385f81f211c808c55fb2a38440a78d8d5fb637425e6f605f8f"
+    },
+    {
+      "path": "skills/velixo-design/references/dashboard-skeleton.md",
+      "source": "src/skills/velixo-design/references/dashboard-skeleton.md",
+      "integrity": "sha256-62d5a337cee99a94d45fc77617eee63dd41138c175bfb152eba8397ac911a395"
+    },
+    {
+      "path": "skills/velixo-design/references/file-recipes.md",
+      "source": "src/skills/velixo-design/references/file-recipes.md",
+      "integrity": "sha256-827715329d4763a040801639c4543e71173f98cea02d3bfefb61bebbf5e403e9"
+    },
     {
       "path": ".claude-plugin/plugin.json",
       "source": "plugins/claude/static/.claude-plugin/plugin.json.mustache",
-      "integrity": "sha256-fe950423fea0ce734b36eb7ab1616cc5f31fca88e2c168b61833d7b1254321c2"
+      "integrity": "sha256-c33b0e27e9e977daffd8bbf3364ec9acf695c7f9644e171599f6904b66668de7"
     },
     {
       "path": ".mcp.json",
@@ -20,7 +35,7 @@
     {
       "path": "README.md",
       "source": "plugins/claude/static/README.md.mustache",
-      "integrity": "sha256-69b92cf6499ecbd1b018b60f388eaa1c5ea5b16b15ec223ad6639ebcb140161c"
+      "integrity": "sha256-424036846bdabf53d4c4a779c153f0ef3bd993e935f4a76a60837d961368fc8c"
     },
     {
       "path": "icon.png",
